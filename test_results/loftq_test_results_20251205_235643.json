@@ -1,0 +1,160 @@
+{
+  "test_date": "2025-12-05T23:56:23.303773",
+  "system_info": {
+    "pytorch_version": "2.8.0+cpu",
+    "cuda_available": false,
+    "device": "cpu"
+  },
+  "tests": [
+    {
+      "name": "Basic Model Loading",
+      "status": "PASSED",
+      "model": "gpt2",
+      "parameters": 124439808,
+      "load_time_seconds": 4.46,
+      "memory_mb": 474.7
+    },
+    {
+      "name": "LoRA Rank 4",
+      "status": "PASSED",
+      "rank": 4,
+      "trainable_params": 405504,
+      "total_params": 124845312,
+      "trainable_percentage": 0.3248,
+      "setup_time_seconds": 6.6
+    },
+    {
+      "name": "LoRA Rank 8",
+      "status": "PASSED",
+      "rank": 8,
+      "trainable_params": 811008,
+      "total_params": 125250816,
+      "trainable_percentage": 0.6475,
+      "setup_time_seconds": 0.03
+    },
+    {
+      "name": "LoRA Rank 16",
+      "status": "PASSED",
+      "rank": 16,
+      "trainable_params": 1622016,
+      "total_params": 126061824,
+      "trainable_percentage": 1.2867,
+      "setup_time_seconds": 0.04
+    },
+    {
+      "name": "LoRA Rank 32",
+      "status": "PASSED",
+      "rank": 32,
+      "trainable_params": 3244032,
+      "total_params": 127683840,
+      "trainable_percentage": 2.5407,
+      "setup_time_seconds": 0.06
+    },
+    {
+      "name": "LoRA Rank 64",
+      "status": "PASSED",
+      "rank": 64,
+      "trainable_params": 6488064,
+      "total_params": 130927872,
+      "trainable_percentage": 4.9554,
+      "setup_time_seconds": 0.09
+    },
+    {
+      "name": "Text Generation",
+      "status": "PASSED",
+      "generations": [
+        {
+          "prompt": "Artificial intelligence is",
+          "generated_text": "Artificial intelligence is an important part of the computer-based economy. It offers a new way to build and deploy software, and this is an important",
+          "generation_time_seconds": 3.86
+        },
+        {
+          "prompt": "The future of technology",
+          "generated_text": "The future of technology may be defined by a shift in the way that technology interacts with society, and it's possible that many of the technologies that are",
+          "generation_time_seconds": 2.07
+        },
+        {
+          "prompt": "Machine learning enables",
+          "generated_text": "Machine learning enables us to get a better picture of a person's personality and how they respond to specific stimuli, and we can learn to predict the behavior",
+          "generation_time_seconds": 2.4
+        }
+      ],
+      "average_generation_time": 2.78
+    },
+    {
+      "name": "Parameter Efficiency",
+      "status": "PASSED",
+      "efficiency_data": [
+        {
+          "rank": 4,
+          "base_params": 125250816,
+          "trainable_params": 405504,
+          "reduction_factor": 308.88,
+          "memory_savings_percent": 99.68
+        },
+        {
+          "rank": 8,
+          "base_params": 125250816,
+          "trainable_params": 811008,
+          "reduction_factor": 154.44,
+          "memory_savings_percent": 99.35
+        },
+        {
+          "rank": 16,
+          "base_params": 125250816,
+          "trainable_params": 1622016,
+          "reduction_factor": 77.22,
+          "memory_savings_percent": 98.7
+        },
+        {
+          "rank": 32,
+          "base_params": 125250816,
+          "trainable_params": 3244032,
+          "reduction_factor": 38.61,
+          "memory_savings_percent": 97.41
+        },
+        {
+          "rank": 64,
+          "base_params": 125250816,
+          "trainable_params": 6488064,
+          "reduction_factor": 19.3,
+          "memory_savings_percent": 94.82
+        }
+      ]
+    },
+    {
+      "name": "Target Modules: Attention Only",
+      "status": "PASSED",
+      "config_name": "Attention Only",
+      "target_modules": [
+        "c_attn"
+      ],
+      "trainable_params": 4423680
+    },
+    {
+      "name": "Target Modules: Projection Only",
+      "status": "PASSED",
+      "config_name": "Projection Only",
+      "target_modules": [
+        "c_proj"
+      ],
+      "trainable_params": 811008
+    },
+    {
+      "name": "Target Modules: Both Attention & Projection",
+      "status": "PASSED",
+      "config_name": "Both Attention & Projection",
+      "target_modules": [
+        "c_attn",
+        "c_proj"
+      ],
+      "trainable_params": 811008
+    }
+  ],
+  "summary": {
+    "total_tests": 11,
+    "passed": 11,
+    "failed": 0,
+    "success_rate": 100.0
+  }
+}

@@ -1,0 +1,38 @@
+============================================================
+LoftQ Test Summary
+============================================================
+Date: 2025-12-05T23:56:23.303773
+PyTorch Version: 2.8.0+cpu
+Device: cpu
+CUDA Available: False
+
+============================================================
+SUMMARY
+============================================================
+Total Tests: 11
+Passed: 11
+Failed: 0
+Success Rate: 100.0%
+
+============================================================
+KEY FINDINGS
+============================================================
+
+1. Parameter Efficiency (LoRA Rank Analysis):
+   - Rank 4: 308.88x reduction, 99.68% memory savings
+   - Rank 8: 154.44x reduction, 99.35% memory savings
+   - Rank 16: 77.22x reduction, 98.7% memory savings
+   - Rank 32: 38.61x reduction, 97.41% memory savings
+   - Rank 64: 19.3x reduction, 94.82% memory savings
+
+2. Text Generation Performance:
+   - Average generation time: 2.78s
+   - Number of test prompts: 3
+
+============================================================
+RECOMMENDATIONS
+============================================================
+- CUDA is not available. For quantization features, use a GPU-enabled system.
+- LoRA rank 8-16 provides good balance between efficiency and performance.
+- Targeting both attention and projection layers gives best coverage.
+- Consider fake quantization mode for CPU testing.
