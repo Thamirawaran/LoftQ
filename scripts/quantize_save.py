@@ -27,7 +27,7 @@ from transformers import (
 )
 
 from peft import LoftQConfig, LoraConfig, TaskType, get_peft_model
-from safetensors import save_open
+from safetensors import safe_open
 
 
 class Shell(nn.Module):
@@ -162,18 +162,22 @@ def quantize_and_save():
         init_lora_weights="loftq",
         loftq_config=loftq_config,
     )
+    print(f"LoRA config: {lora_config}")
 
     # Obtain LoftQ model
     lora_model = get_peft_model(model, lora_config)
     base_model = lora_model.get_base_model()
+    print(f"LoftQ model loaded with {args.bits}-bit quantization and rank-{args.rank} LoRA adapters.")
 
     # Save LoftQ model
     model_name = args.model_name_or_path.split("/")[-1] + f"-{args.bits}bit" + f"-{args.rank}rank"
     base_model_dir = os.path.join(args.save_dir, model_name)
     lora_model_dir = os.path.join(args.save_dir, model_name, "loftq_init")
+    print(f"Saving base model to {base_model_dir}")
 
     lora_model.save_pretrained(lora_model_dir)
     print_model(lora_model, "lora_model")
+    print(f"Saving LoRA adapters to {lora_model_dir}")
 
     # remove lora adapters and save the backbone
     unwrap_model(base_model)
@@ -188,15 +192,17 @@ def quantize_and_save():
         for k in f.keys():
             tensors[k] = f.get_tensor(k)
     torch.save(tensors, os.path.join(lora_model_dir, "adapter_model.bin"))
-
+    print(f"Converted safetensors to bin at {os.path.join(lora_model_dir, 'adapter_model.bin')}")
     # change adapter_config.json
     with open(os.path.join(lora_model_dir, "adapter_config.json"), "r") as fp:
         adapter_config = json.load(fp)
         adapter_config['base_model_name_or_path'] = base_model_dir  # This can be a local path or Hub model id
         adapter_config['init_lora_weights'] = True  # Don't apply LoftQ when loading again
         fp.close()
+    print(f"Updated adapter_config.json with base_model_name_or_path: {base_model_dir}")
     with open(os.path.join(lora_model_dir, "adapter_config.json"), "w") as fp:
         json.dump(adapter_config, fp, indent=2)
+    print(f"Saved updated adapter_config.json at {os.path.join(lora_model_dir, 'adapter_config.json')}")
 
     return base_model_dir, lora_model_dir
 
